@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F65223F72361BA07007B4E8A /* shotSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F65223F62361BA07007B4E8A /* shotSound.mp3 */; };
 		F6C3D62E2360F49C00124059 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C3D62D2360F49C00124059 /* AppDelegate.swift */; };
 		F6C3D6302360F49C00124059 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = F6C3D62F2360F49C00124059 /* art.scnassets */; };
 		F6C3D6322360F49C00124059 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C3D6312360F49C00124059 /* ViewController.swift */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F65223F62361BA07007B4E8A /* shotSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = shotSound.mp3; sourceTree = "<group>"; };
 		F6C3D62A2360F49C00124059 /* ArGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ArGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6C3D62D2360F49C00124059 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F6C3D62F2360F49C00124059 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -61,6 +63,7 @@
 				F6C3D62D2360F49C00124059 /* AppDelegate.swift */,
 				F6C3D62F2360F49C00124059 /* art.scnassets */,
 				F6C3D6312360F49C00124059 /* ViewController.swift */,
+				F65223F62361BA07007B4E8A /* shotSound.mp3 */,
 				F6C3D6332360F49C00124059 /* Main.storyboard */,
 				F6C3D6362360F49C00124059 /* Assets.xcassets */,
 				F6C3D6382360F49C00124059 /* LaunchScreen.storyboard */,
@@ -128,6 +131,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F65223F72361BA07007B4E8A /* shotSound.mp3 in Resources */,
 				F6C3D6302360F49C00124059 /* art.scnassets in Resources */,
 				F6C3D63A2360F49C00124059 /* LaunchScreen.storyboard in Resources */,
 				F6C3D6372360F49C00124059 /* Assets.xcassets in Resources */,

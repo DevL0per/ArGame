@@ -9,12 +9,26 @@
 import UIKit
 import SceneKit
 import ARKit
+import AVFoundation
 
 class ViewController: UIViewController, ARSCNViewDelegate {
     
-    var button: UIButton!
-    var aimImage: UIImageView!
-    var box: Box!
+    private var timer = Timer()
+    
+    private var scoreLabel: UILabel!
+    private var score = 0
+    
+    private var button: UIButton!
+    private var aimImage: UIImageView!
+    private var box: Box!
+    
+    private var audioPlayer: AVAudioPlayer!
+    private let shotSoundPath = Bundle.main.path(forResource: "shotSound.mp3", ofType: nil)!
+    
+    private var counter = 30
+    
+    let shotBundle = Bundle.main.path(forResource: "shotSound", ofType: "mp3")
+    
     
     @IBOutlet var sceneView: ARSCNView!
     
@@ -35,6 +49,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         buttonConfigure()
         aimImageConfigure()
+        scoreLabelsConfigure()
     }
     
     
@@ -55,33 +70,87 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         sceneView.session.pause()
     }
     
+    private func scoreLabelsConfigure() {
+        scoreLabel = UILabel()
+        scoreLabel.text = String("score: \(score)")
+        scoreLabel.textColor = .red
+        view.addSubview(scoreLabel)
+        
+        scoreLabel.translatesAutoresizingMaskIntoConstraints = false
+        scoreLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 10).isActive = true
+        scoreLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    }
+    
+    private func timerConfigure() {
+        timer = Timer.scheduledTimer(timeInterval: 2, target: self,
+        selector: #selector(timerAction),
+        userInfo: nil,
+        repeats: true)
+    }
+    
+    @objc private func timerAction() {
+        deleteBoxFromParentNode()
+        let positionX = Int.random(in: -1..<2)
+        let positionY = Int.random(in: -1..<2)
+        let location = SCNVector3(positionX, positionY, -1)
+        self.createBox(in: location)
+        counter-=2
+        if counter == 0 {
+            
+        }
+    }
+    
     private func aimImageConfigure() {
         aimImage = UIImageView()
         aimImage.backgroundColor = .clear
         aimImage.image = UIImage(named: "aim")
         
         view.addSubview(aimImage)
-        aimImage.translatesAutoresizingMaskIntoConstraints = false 
+        aimImage.translatesAutoresizingMaskIntoConstraints = false
         aimImage.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         aimImage.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         aimImage.widthAnchor.constraint(equalToConstant: 15).isActive = true
         aimImage.heightAnchor.constraint(equalToConstant: 15).isActive = true
     }
     
-    private func createBox() {
-        let startPosition = SCNVector3(0, 0, -1)
+    private func createBox(in positon: SCNVector3) {
+        let startPosition = positon
         box = Box(position: startPosition)
         sceneView.scene.rootNode.addChildNode(box)
     }
     
     private func shot() {
         
+//        let url = URL(fileURLWithPath: shotSoundPath)
+//
+//               do {
+//                   audioPlayer = try AVAudioPlayer(contentsOf: url)
+//                   audioPlayer.play()
+//               } catch {
+//                   print("can't load sound")
+//               }
+        
+        guard box != nil else { return }
+        
         let location = CGPoint(x: sceneView.center.x, y: sceneView.center.y)
         
         let hitTestResult = sceneView.hitTest(location, options: [:])
-        guard let result = hitTestResult.first else { return }
+        guard let _ = hitTestResult.first else { return }
+        score+=1
+        scoreLabel.text = String("score: \(score)")
         
-        print(result)
+        deleteBoxFromParentNode()
+        
+    }
+    
+    private func deleteBoxFromParentNode() {
+        guard box != nil else { return }
+        SCNTransaction.animationDuration = 2.0
+        box.opacity = 0
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0) { [weak self] in
+            self?.box.removeFromParentNode()
+            self?.box = nil
+        }
     }
     
     private func buttonConfigure() {
@@ -102,9 +171,10 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
     
     @objc private func buttonPressed() {
+        
         if button.titleLabel?.text == "Start" {
             button.setTitle("Shot", for: .normal)
-            createBox()
+            timerConfigure()
         } else {
             shot()
         }

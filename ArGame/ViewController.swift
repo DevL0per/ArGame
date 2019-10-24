@@ -11,7 +11,11 @@ import SceneKit
 import ARKit
 
 class ViewController: UIViewController, ARSCNViewDelegate {
-
+    
+    var button: UIButton!
+    var aimImage: UIImageView!
+    var box: Box!
+    
     @IBOutlet var sceneView: ARSCNView!
     
     override func viewDidLoad() {
@@ -24,18 +28,22 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         sceneView.showsStatistics = true
         
         // Create a new scene
-        let scene = SCNScene(named: "art.scnassets/ship.scn")!
+        let scene = SCNScene()
         
         // Set the scene to the view
         sceneView.scene = scene
+        
+        buttonConfigure()
+        aimImageConfigure()
     }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // Create a session configuration
         let configuration = ARWorldTrackingConfiguration()
-
+        
         // Run the view's session
         sceneView.session.run(configuration)
     }
@@ -46,30 +54,59 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Pause the view's session
         sceneView.session.pause()
     }
-
-    // MARK: - ARSCNViewDelegate
     
-/*
-    // Override to create and configure nodes for anchors added to the view's session.
-    func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
-        let node = SCNNode()
-     
-        return node
-    }
-*/
-    
-    func session(_ session: ARSession, didFailWithError error: Error) {
-        // Present an error message to the user
+    private func aimImageConfigure() {
+        aimImage = UIImageView()
+        aimImage.backgroundColor = .clear
+        aimImage.image = UIImage(named: "aim")
         
+        view.addSubview(aimImage)
+        aimImage.translatesAutoresizingMaskIntoConstraints = false 
+        aimImage.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        aimImage.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        aimImage.widthAnchor.constraint(equalToConstant: 15).isActive = true
+        aimImage.heightAnchor.constraint(equalToConstant: 15).isActive = true
     }
     
-    func sessionWasInterrupted(_ session: ARSession) {
-        // Inform the user that the session has been interrupted, for example, by presenting an overlay
-        
+    private func createBox() {
+        let startPosition = SCNVector3(0, 0, -1)
+        box = Box(position: startPosition)
+        sceneView.scene.rootNode.addChildNode(box)
     }
     
-    func sessionInterruptionEnded(_ session: ARSession) {
-        // Reset tracking and/or remove existing anchors if consistent tracking is required
+    private func shot() {
         
+        let location = CGPoint(x: sceneView.center.x, y: sceneView.center.y)
+        
+        let hitTestResult = sceneView.hitTest(location, options: [:])
+        guard let result = hitTestResult.first else { return }
+        
+        print(result)
+    }
+    
+    private func buttonConfigure() {
+        button = UIButton()
+        view.addSubview(button)
+        
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -25).isActive = true
+        button.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        button.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        button.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        
+        button.backgroundColor = .red
+        button.setTitle("Start", for: .normal)
+        button.layer.cornerRadius = 5
+        
+        button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+    }
+    
+    @objc private func buttonPressed() {
+        if button.titleLabel?.text == "Start" {
+            button.setTitle("Shot", for: .normal)
+            createBox()
+        } else {
+            shot()
+        }
     }
 }

@@ -13,6 +13,7 @@
 		F6C3D6352360F49C00124059 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F6C3D6332360F49C00124059 /* Main.storyboard */; };
 		F6C3D6372360F49C00124059 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6C3D6362360F49C00124059 /* Assets.xcassets */; };
 		F6C3D63A2360F49C00124059 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F6C3D6382360F49C00124059 /* LaunchScreen.storyboard */; };
+		F6C3D6422360F4C700124059 /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C3D6412360F4C700124059 /* Box.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		F6C3D6362360F49C00124059 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F6C3D6392360F49C00124059 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F6C3D63B2360F49C00124059 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F6C3D6412360F4C700124059 /* Box.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Box.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 				F6C3D6362360F49C00124059 /* Assets.xcassets */,
 				F6C3D6382360F49C00124059 /* LaunchScreen.storyboard */,
 				F6C3D63B2360F49C00124059 /* Info.plist */,
+				F6C3D6412360F4C700124059 /* Box.swift */,
 			);
 			path = ArGame;
 			sourceTree = "<group>";
@@ -139,6 +142,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F6C3D6422360F4C700124059 /* Box.swift in Sources */,
 				F6C3D6322360F49C00124059 /* ViewController.swift in Sources */,
 				F6C3D62E2360F49C00124059 /* AppDelegate.swift in Sources */,
 			);
@@ -287,6 +291,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = RYT7ZAW62J;
 				INFOPLIST_FILE = ArGame/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -305,6 +310,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = RYT7ZAW62J;
 				INFOPLIST_FILE = ArGame/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

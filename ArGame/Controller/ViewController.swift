@@ -18,14 +18,19 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     private var scoreLabel: UILabel!
     private var score = 0
     
+    private var timeLabel: UILabel!
+    private var counter = 30 {
+        didSet {
+            timeLabel.text = "time remain: \(counter)"
+        }
+    }
+    
     private var button: UIButton!
     private var aimImage: UIImageView!
     private var box: Box!
     
     private var audioPlayer: AVAudioPlayer!
     private let shotSoundPath = Bundle.main.path(forResource: "shotSound.mp3", ofType: nil)!
-    
-    private var counter = 30
     
     let shotBundle = Bundle.main.path(forResource: "shotSound", ofType: "mp3")
     
@@ -50,6 +55,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         buttonConfigure()
         aimImageConfigure()
         scoreLabelsConfigure()
+        timeLabelConfigure()
     }
     
     
@@ -70,14 +76,25 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         sceneView.session.pause()
     }
     
+    private func timeLabelConfigure() {
+        timeLabel = UILabel()
+        timeLabel.text = String("time remain: \(counter)")
+        timeLabel.textColor = .black
+        view.addSubview(timeLabel)
+        
+        timeLabel.translatesAutoresizingMaskIntoConstraints = false
+        timeLabel.topAnchor.constraint(equalTo: scoreLabel.topAnchor, constant: 30).isActive = true
+        timeLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    }
+    
     private func scoreLabelsConfigure() {
         scoreLabel = UILabel()
         scoreLabel.text = String("score: \(score)")
-        scoreLabel.textColor = .red
+        scoreLabel.textColor = .black
         view.addSubview(scoreLabel)
         
         scoreLabel.translatesAutoresizingMaskIntoConstraints = false
-        scoreLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 10).isActive = true
+        scoreLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 15).isActive = true
         scoreLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     }
     
@@ -96,7 +113,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         self.createBox(in: location)
         counter-=2
         if counter == 0 {
-            
+            performSegue(withIdentifier: "scoreSegue", sender: nil)
         }
     }
     
@@ -155,17 +172,17 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     
     private func buttonConfigure() {
         button = UIButton()
+        button.backgroundColor = #colorLiteral(red: 0.7208914975, green: 0.7208914975, blue: 0.7208914975, alpha: 0.586124786)
+        button.layer.cornerRadius = 30
+        button.layer.borderWidth = 1
+        button.setTitle("Start", for: .normal)
         view.addSubview(button)
         
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -25).isActive = true
+        button.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30).isActive = true
         button.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        button.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        button.widthAnchor.constraint(equalToConstant: 80).isActive = true
-        
-        button.backgroundColor = .red
-        button.setTitle("Start", for: .normal)
-        button.layer.cornerRadius = 5
+        button.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        button.widthAnchor.constraint(equalToConstant: 60).isActive = true
         
         button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
     }
@@ -173,10 +190,15 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     @objc private func buttonPressed() {
         
         if button.titleLabel?.text == "Start" {
-            button.setTitle("Shot", for: .normal)
+            button.setImage(UIImage(named: "bullet"), for: .normal)
             timerConfigure()
         } else {
             shot()
         }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let vc = segue.destination as! ScoreViewController
+        vc.score = score
     }
 }

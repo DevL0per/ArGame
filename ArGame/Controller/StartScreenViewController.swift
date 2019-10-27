@@ -12,7 +12,7 @@ class StartScreenViewController: UIViewController {
 
     private let iconImage: UIImageView! = {
         let image = UIImageView()
-        image.image = UIImage(named: "appIcon")
+        image.image = UIImage(named: "targetIcon")
         return image
     }()
     

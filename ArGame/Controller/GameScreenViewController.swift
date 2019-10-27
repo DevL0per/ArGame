@@ -45,7 +45,7 @@ final class GameScreenViewController: UIViewController, ARSCNViewDelegate {
     }()
     // Play time
     private var timeLabel: UILabel!
-    private var counter = 2 {
+    private var counter = 30 {
         didSet {
             timeLabel.text = "time remain: \(counter)"
         }
